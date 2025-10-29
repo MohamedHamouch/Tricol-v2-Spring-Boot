@@ -1,25 +1,33 @@
 package ma.tricol.supplies.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "supplier")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Table(name = "suppliers")
 public class Supplier {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String companyName;
+    @Column(nullable = false)
+    private String company;
+
     private String address;
-    private String contactPerson;
+
+    private String contact;
+
     private String email;
+
     private String phone;
+
     private String city;
+
     private String ice;
 }
