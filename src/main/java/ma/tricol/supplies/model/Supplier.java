@@ -23,11 +23,13 @@ public class Supplier {
 
     private String contact;
 
+    @Column(unique = true)
     private String email;
 
     private String phone;
 
     private String city;
 
+    @Column(unique = true)
     private String ice;
 }
