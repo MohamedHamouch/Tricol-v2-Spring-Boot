@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,6 +59,7 @@ public class ProductService {
         Product product = productMapper.toEntity(productDTO);
         Integer initialStock = product.getCurrentStock() != null ? product.getCurrentStock() : 0;
         product.setCurrentStock(initialStock);
+        product.setCump(product.getUnitPrice());
         
         Product savedProduct = productRepository.save(product);
         
@@ -111,5 +114,24 @@ public class ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
         productRepository.delete(product);
+    }
+
+    public void updateCump(Product product, Integer newQuantity, BigDecimal newPrice) {
+        Integer oldStock = product.getCurrentStock();
+        BigDecimal oldCump = product.getCump() != null ? product.getCump() : BigDecimal.ZERO;
+        
+        if (oldStock == 0) {
+            product.setCump(newPrice);
+        } else {
+            BigDecimal oldValue = oldCump.multiply(new BigDecimal(oldStock));
+            BigDecimal newValue = newPrice.multiply(new BigDecimal(newQuantity));
+            BigDecimal totalValue = oldValue.add(newValue);
+            BigDecimal totalQuantity = new BigDecimal(oldStock + newQuantity);
+            
+            BigDecimal newCump = totalValue.divide(totalQuantity, 2, RoundingMode.HALF_UP);
+            product.setCump(newCump);
+        }
+        
+        productRepository.save(product);
     }
 }

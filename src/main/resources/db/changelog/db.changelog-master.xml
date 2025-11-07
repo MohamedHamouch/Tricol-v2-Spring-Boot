@@ -12,5 +12,6 @@ https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
     <include file="db/changelog/changes/v3-create-supplier-order-table.sql"/>
     <include file="db/changelog/changes/v4-create-order-product-table.sql"/>
     <include file="db/changelog/changes/v5-create-stock-movement-table.sql"/>
+    <include file="db/changelog/changes/v6-add-cump-field.sql"/>
 
 </databaseChangeLog>

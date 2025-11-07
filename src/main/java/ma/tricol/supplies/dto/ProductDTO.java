@@ -28,4 +28,6 @@ public class ProductDTO {
     private String category;
 
     private Integer currentStock;
+
+    private BigDecimal cump;
 }

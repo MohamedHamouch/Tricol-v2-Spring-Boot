@@ -39,6 +39,9 @@ public class SupplierOrderService {
     @Autowired
     private StockMovementRepository stockMovementRepository;
 
+    @Autowired
+    private ProductService productService;
+
     public List<SupplierOrderDTO> getAllOrders() {
         return supplierOrderRepository.findAll().stream()
                 .map(supplierOrderMapper::toDTO)
@@ -125,7 +128,8 @@ public class SupplierOrderService {
             Product product = orderProduct.getProduct();
             Integer currentStock = product.getCurrentStock() != null ? product.getCurrentStock() : 0;
             product.setCurrentStock(currentStock + orderProduct.getQuantity());
-            productRepository.save(product);
+            
+            productService.updateCump(product, orderProduct.getQuantity(), orderProduct.getUnitPrice());
         }
     }
 

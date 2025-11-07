@@ -31,4 +31,7 @@ public class Product {
 
     @Column(name = "current_stock")
     private Integer currentStock = 0;
+
+    @Column(name = "cump")
+    private BigDecimal cump = BigDecimal.ZERO;
 }
