@@ -1,4 +1,4 @@
-﻿package ma.tricol.supplies.mapper;
+package ma.tricol.supplies.mapper;
 
 import ma.tricol.supplies.dto.StockMovementDTO;
 import ma.tricol.supplies.model.StockMovement;
