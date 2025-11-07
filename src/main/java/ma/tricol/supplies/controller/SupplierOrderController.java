@@ -27,13 +27,11 @@ public class SupplierOrderController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "orderDate") String sortBy,
-            @RequestParam(defaultValue = "DESC") String sortDir,
-            @RequestParam(required = false) Long supplierId,
-            @RequestParam(required = false) OrderStatus status) {
+            @RequestParam(defaultValue = "DESC") String sortDir) {
         
         Sort sort = sortDir.equalsIgnoreCase("DESC") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
         Pageable pageable = PageRequest.of(page, size, sort);
-        Page<SupplierOrderDTO> orders = supplierOrderService.getOrdersByFilters(supplierId, status, pageable);
+        Page<SupplierOrderDTO> orders = supplierOrderService.getAllOrders(pageable);
         return ResponseEntity.ok(orders);
     }
 
@@ -44,8 +42,16 @@ public class SupplierOrderController {
     }
 
     @GetMapping("/supplier/{supplierId}")
-    public ResponseEntity<List<SupplierOrderDTO>> getOrdersBySupplierId(@PathVariable Long supplierId) {
-        List<SupplierOrderDTO> orders = supplierOrderService.getOrdersBySupplierId(supplierId);
+    public ResponseEntity<Page<SupplierOrderDTO>> getOrdersBySupplierId(
+            @PathVariable Long supplierId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "orderDate") String sortBy,
+            @RequestParam(defaultValue = "DESC") String sortDir) {
+        
+        Sort sort = sortDir.equalsIgnoreCase("DESC") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        Page<SupplierOrderDTO> orders = supplierOrderService.getOrdersBySupplierId(supplierId, pageable);
         return ResponseEntity.ok(orders);
     }
 

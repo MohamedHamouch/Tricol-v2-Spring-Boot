@@ -26,13 +26,11 @@ public class ProductController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "ASC") String sortDir,
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) String search) {
+            @RequestParam(defaultValue = "ASC") String sortDir) {
         
         Sort sort = sortDir.equalsIgnoreCase("DESC") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
         Pageable pageable = PageRequest.of(page, size, sort);
-        Page<ProductDTO> products = productService.getProductsByFilters(category, search, pageable);
+        Page<ProductDTO> products = productService.getAllProducts(pageable);
         return ResponseEntity.ok(products);
     }
 

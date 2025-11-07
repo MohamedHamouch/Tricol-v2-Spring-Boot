@@ -53,21 +53,15 @@ public class SupplierOrderService {
                 .map(supplierOrderMapper::toDTO);
     }
 
-    public Page<SupplierOrderDTO> getOrdersByFilters(Long supplierId, OrderStatus status, Pageable pageable) {
-        return supplierOrderRepository.findByFilters(supplierId, status, pageable)
-                .map(supplierOrderMapper::toDTO);
-    }
-
     public SupplierOrderDTO getOrderById(Long id) {
         SupplierOrder order = supplierOrderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("SupplierOrder", "id", id));
         return supplierOrderMapper.toDTO(order);
     }
 
-    public List<SupplierOrderDTO> getOrdersBySupplierId(Long supplierId) {
-        return supplierOrderRepository.findBySupplierId(supplierId).stream()
-                .map(supplierOrderMapper::toDTO)
-                .collect(Collectors.toList());
+    public Page<SupplierOrderDTO> getOrdersBySupplierId(Long supplierId, Pageable pageable) {
+        return supplierOrderRepository.findBySupplierId(supplierId, pageable)
+                .map(supplierOrderMapper::toDTO);
     }
 
     public SupplierOrderDTO createOrder(SupplierOrderDTO orderDTO) {

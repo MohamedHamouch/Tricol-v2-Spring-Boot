@@ -44,11 +44,6 @@ public class ProductService {
                 .map(productMapper::toDTO);
     }
 
-    public Page<ProductDTO> getProductsByFilters(String category, String search, Pageable pageable) {
-        return productRepository.findByFilters(category, search, pageable)
-                .map(productMapper::toDTO);
-    }
-
     public ProductDTO getProductById(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));

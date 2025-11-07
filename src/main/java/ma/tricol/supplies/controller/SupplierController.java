@@ -26,13 +26,11 @@ public class SupplierController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "ASC") String sortDir,
-            @RequestParam(required = false) String city,
-            @RequestParam(required = false) String search) {
+            @RequestParam(defaultValue = "ASC") String sortDir) {
         
         Sort sort = sortDir.equalsIgnoreCase("DESC") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
         Pageable pageable = PageRequest.of(page, size, sort);
-        Page<SupplierDTO> suppliers = supplierService.getSuppliersByFilters(city, search, pageable);
+        Page<SupplierDTO> suppliers = supplierService.getAllSuppliers(pageable);
         return ResponseEntity.ok(suppliers);
     }
 

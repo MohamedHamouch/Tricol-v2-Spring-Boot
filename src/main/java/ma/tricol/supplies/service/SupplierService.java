@@ -35,11 +35,6 @@ public class SupplierService {
                 .map(supplierMapper::toDTO);
     }
 
-    public Page<SupplierDTO> getSuppliersByFilters(String city, String search, Pageable pageable) {
-        return supplierRepository.findByFilters(city, search, pageable)
-                .map(supplierMapper::toDTO);
-    }
-
     public SupplierDTO getSupplierById(Long id) {
         Supplier supplier = supplierRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Supplier", "id", id));
